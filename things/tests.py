@@ -1,14 +1,14 @@
-from django.test import TestCase
 from django.core.exceptions import ValidationError
+from django.test import TestCase
+
 from things.models import Thing
 
 class UserModelTestCase(TestCase):
     def setUp(self):
-        self.thing=Thing(
-        name='phone',
-        description='iPhone 14 purple',
-        quantity=2)
-
+        self.thing = Thing(
+        name = 'phone',
+        description = 'iPhone 14 purple',
+        quantity = 2)
 
     def test_valid_name(self):
         self._assert_thing_is_valid()
@@ -26,24 +26,24 @@ class UserModelTestCase(TestCase):
         self._assert_thing_is_invalid()
 
     def test_description_may_be_blank(self):
-        self.thing.description= ''
+        self.thing.description = ''
         self._assert_thing_is_valid()
 
     def test_description_need_not_be_unique(self):
-        second_thing=self._create_second_thing()
-        self.thing.description = second_thing.description
-        self._assert_thing_is_valid()
+       second_thing = self._create_second_thing()
+       self.thing.description = second_thing.description
+       self._assert_thing_is_valid()
 
     def test_description_may_contain_120_characters(self):
-        self.thing.description = 'x'*120
+        self.thing.description = 'x' * 120
         self._assert_thing_is_valid()
 
     def test_description_must_not_contain_more_than_120_characters(self):
-        self.thing.description = 'x'*121
+        self.thing.description = 'x' * 121
         self._assert_thing_is_invalid()
 
     def test_quantity_need_not_be_unique(self):
-        second_thing=self._create_second_thing()
+        second_thing = self._create_second_thing()
         self.thing.quantity = second_thing.quantity
         self._assert_thing_is_valid()
 
@@ -62,8 +62,8 @@ class UserModelTestCase(TestCase):
             self.thing.full_clean()
 
     def _create_second_thing(self):
-        thing=Thing(
-            name ='pen',
-            description='Apple pen',
-            quantity=10)
+        thing = Thing(
+        name = 'pen',
+        description = 'Apple pen',
+        quantity = 10)
         return thing
